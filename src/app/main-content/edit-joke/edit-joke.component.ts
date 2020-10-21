@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Joke } from 'src/models/joke.model';
 import { JokesService } from 'src/services/jokes.service';
@@ -13,11 +13,12 @@ export class EditJokeComponent implements OnInit {
   public id: string;
   public editMode: boolean = false
   public isJokeDelivery: boolean = false;
-  public categories:Array<{id:string, name:string}>
+  public categories: Array<{ id: string, name: string }>
   public flags: Array<any>;
   public jokeForm: FormGroup;
+  public alert:boolean = false;
 
-  public selectedFlags: Array<number> =[]
+  public selectedFlags: Array<number> = []
   constructor(private jokeService: JokesService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -53,11 +54,11 @@ export class EditJokeComponent implements OnInit {
     }
     this.jokeForm = new FormGroup({
       'id': new FormControl(new Date().getTime().toString()),
-      'jokeCategory': new FormControl(jokeCategory),
-      'jokeType': new FormControl(jokeType),
+      'jokeCategory': new FormControl(jokeCategory, Validators.required),
+      'jokeType': new FormControl(jokeType, Validators.required),
       'jokeFlags': new FormControl(this.selectedFlags),
-      'jokeContent': new FormControl(jokeContent),
-      'jokeDelivery': new FormControl(jokeDelivery),
+      'jokeContent': new FormControl(jokeContent, Validators.required),
+      'jokeDelivery': new FormControl(jokeDelivery, this.isJokeDelivery? Validators.required : null),
     })
 
   }
@@ -69,9 +70,9 @@ export class EditJokeComponent implements OnInit {
       this.selectedFlags = this.selectedFlags.filter(item => item != id)
     }
     this.jokeForm.patchValue({
-      'jokeFlags':this.selectedFlags
+      'jokeFlags': this.selectedFlags
     });
-     
+
   }
 
   isChecked(item) {
@@ -84,22 +85,27 @@ export class EditJokeComponent implements OnInit {
     return false
   }
   onChangeType(event) {
-    if (event.target.value == 2) { 
+    if (event.target.value == 2) {
       this.isJokeDelivery = true
-     }else {
-       this.isJokeDelivery = false;
-     };
-     
+    } else {
+      this.isJokeDelivery = false;
+    };
+
   }
   onSubmitJoke() {
-    if (this.editMode) {
-      this.jokeService.editJoke(this.jokeForm.value, this.id)
-     // console.log(this.jokeForm.value)
+    console.log(this.jokeForm)
+    if (this.jokeForm.valid) {
+      if (this.editMode) {
+        this.jokeService.editJoke(this.jokeForm.value, this.id)
+        // console.log(this.jokeForm.value)
+      } else {
+        this.jokeService.addJoke(this.jokeForm.value);
+      }
+      this.router.navigate([''])
+      this.alert = false;
     } else {
-      this.jokeService.addJoke(this.jokeForm.value);
+      this.alert = true;
     }
-
-    this.router.navigate([''])
   }
 
 }
