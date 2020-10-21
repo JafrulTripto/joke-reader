@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Joke } from 'src/models/joke.model';
 import { JokesService } from 'src/services/jokes.service';
 
@@ -9,7 +10,7 @@ import { JokesService } from 'src/services/jokes.service';
 })
 export class JokeListComponent implements OnInit {
 
-  constructor(public jokeService:JokesService) { }
+  constructor(public jokeService:JokesService, private route: ActivatedRoute, private router: Router) { }
   public jokes: Array<Joke> 
   ngOnInit(): void {
     this.jokes = this.jokeService.getJokes();
@@ -17,6 +18,11 @@ export class JokeListComponent implements OnInit {
       let item = this.jokeService.jokeCategory.find(o => o.id === joke.jokeCategory)
       joke.jokeCategory = item.name
     })
+  }
+
+  palySingleJoke(id) {
+    this.jokeService.playSingle = true;
+    this.router.navigate(['/jokes/', id, 'play'], { relativeTo: this.route });
   }
 
 }

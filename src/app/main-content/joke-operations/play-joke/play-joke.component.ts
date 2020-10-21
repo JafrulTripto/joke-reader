@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Joke } from 'src/models/joke.model';
@@ -15,11 +16,13 @@ export class PlayJokeComponent implements OnInit {
   private id: string;
   public joke: Joke;
   public delivery: boolean = false;
+  public palySingle:boolean = false;
   ngOnInit(): void {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = (+params['id']).toString();
         this.joke = this.jokeService.getJoke(this.id)
+        this.palySingle = this.jokeService.playSingle;
         this.joke.jokeCategory = this.jokeService.jokeCategory.find(x => x.id === this.joke.jokeCategory).name
         this.jokeDelivery()
       }
@@ -33,7 +36,7 @@ export class PlayJokeComponent implements OnInit {
     }, 3000);
   }
   onClickNext() {
-    this.jokeService.nextJoke.next()
+    this.jokeService.playJoke.next()
   }
 
 }

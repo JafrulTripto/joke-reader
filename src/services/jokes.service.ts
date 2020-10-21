@@ -19,11 +19,12 @@ export class JokesService {
     {id:"3", name:'Programming'},
     {id:"4", name:'Dark'},
   ]
-  public nextJoke = new Subject<any>();
+  public playJoke = new Subject<any>();
+  public playSingle;
   constructor() { }
 
   callMethodOfSecondComponent() { 
-    this.nextJoke.next(null)      
+    this.playJoke.next(null)      
   }
   getJokes() {
     return JSON.parse(localStorage.getItem("jokes") || "[]");

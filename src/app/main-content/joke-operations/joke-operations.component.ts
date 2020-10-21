@@ -16,9 +16,14 @@ export class JokeOperationsComponent implements OnInit {
   ngOnInit(): void {
     this.prevRandom = 0
     console.log("ng on init")
-    this.subscription = this.jokeService.nextJoke
+    this.subscription = this.jokeService.playJoke
       .subscribe(value => {
+        if (!value) {
+          
         this.playJokes();
+        } else {
+          console.log(value)
+        }
       })
   }
 
@@ -26,6 +31,7 @@ export class JokeOperationsComponent implements OnInit {
     this.router.navigate(['add'], { relativeTo: this.route });
   }
   playJokes() {
+    this.jokeService.playSingle = false;
     let jokes = this.jokeService.getJokes();
     let random = this.generateRandomNumber(this.prevRandom);
     this.prevRandom = random
@@ -44,6 +50,9 @@ export class JokeOperationsComponent implements OnInit {
     }
     
     return next;
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }
