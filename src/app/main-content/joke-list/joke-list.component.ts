@@ -12,6 +12,8 @@ export class JokeListComponent implements OnInit {
 
   constructor(public jokeService:JokesService, private route: ActivatedRoute, private router: Router) { }
   public jokes: Array<Joke> 
+  startIndex = 0;
+  endIndex = 5;
   ngOnInit(): void {
     this.jokes = this.jokeService.getJokes();
     this.jokes.map((joke:Joke) =>{
@@ -20,9 +22,20 @@ export class JokeListComponent implements OnInit {
     })
   }
 
+  updateIndex(pageIndex){
+    console.log(pageIndex)
+    this.startIndex = pageIndex * 5;
+    this.endIndex = this.startIndex + 5;
+  }
+
   palySingleJoke(id) {
     this.jokeService.playSingle = true;
     this.router.navigate(['/jokes/', id, 'play'], { relativeTo: this.route });
+  }
+
+  getArrayFromNumber(length){
+    let pageLength = Math.ceil(length/5);
+    return new Array(pageLength);
   }
 
 }

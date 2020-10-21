@@ -1,47 +1,54 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Jokes</th>
-            <th scope="col">Flag</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let joke of jokes; let i=index">
-            <th scope="row">{{i+1}}</th>
-            <td style="width: 40%;">
-                <span class="joke-content pr-2">{{joke.jokeContent}}</span>
-                <span class="badge badge-info">{{joke.jokeCategory}}</span>
-                <br>
-                <span class="text-muted joke-content pr-2">{{joke.jokeDelivery}}</span>
-            </td>
-            <td>
-                <div *ngFor="let flag of joke.jokeFlags" class="flag-row">
-                    <img *ngIf="flag === '4'" class="flag-icons px-1" src="../../../assets/noun_racism_860030.png" alt="">
-                    <img *ngIf="flag === '1'" class="flag-icons px-1" src="../../../assets/nsfw.png" alt="">
-                    <img *ngIf="flag === '3'" class="flag-icons px-1" src="../../../assets/politics.png" alt="">
-                    <img *ngIf="flag === '2'" class="flag-icons px-1" src="../../../assets/religious-person.png" alt="">
-                </div>
-            </td>
-            <td>
-                <a [routerLink]="['/jokes', joke.id,'edit']" type="button" class="btn btn-primary mx-1"><i
-                        class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <button type="button" class="btn btn-success mx-1" (click)= "palySingleJoke(joke.id)" ><i class="fa fa-play-circle"
-                        aria-hidden="true"></i></button>
-            </td>
-        </tr>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Jokes</th>
+                <th scope="col">Flag</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let joke of jokes | slice:startIndex:endIndex; let i=index">
+                <th scope="row">{{i+1+startIndex}}</th>
+                <td style="width: 40%;">
+                    <span class="joke-content pr-2">{{joke.jokeContent}}</span>
+                    <span class="badge badge-info">{{joke.jokeCategory}}</span>
+                    <br>
+                    <span class="text-muted joke-content pr-2">{{joke.jokeDelivery}}</span>
+                </td>
+                <td>
+                    <div *ngFor="let flag of joke.jokeFlags" class="flag-row">
+                        <img *ngIf="flag === '4'" class="flag-icons px-1" src="../../../assets/noun_racism_860030.png"
+                            alt="">
+                        <img *ngIf="flag === '1'" class="flag-icons px-1" src="../../../assets/nsfw.png" alt="">
+                        <img *ngIf="flag === '3'" class="flag-icons px-1" src="../../../assets/politics.png" alt="">
+                        <img *ngIf="flag === '2'" class="flag-icons px-1" src="../../../assets/religious-person.png"
+                            alt="">
+                    </div>
+                </td>
+                <td>
+                    <a [routerLink]="['/jokes', joke.id,'edit']" type="button" class="btn btn-primary mx-1"><i
+                            class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <button type="button" class="btn btn-success mx-1" (click)="palySingleJoke(joke.id)"><i
+                            class="fa fa-play-circle" aria-hidden="true"></i></button>
+                </td>
+            </tr>
 
-    </tbody>
-    <!-- <tfoot>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
+        </tbody>
+
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm">
+            <li class="page-item"><a class="page-link" href="#"><</a></li>
+            <li *ngFor="let i of getArrayFromNumber(jokes.length); let in = index" class="page-item"><a
+                    class="page-link" (click)="updateIndex(in)">{{in+1}}</a></li>
+
+            <li class="page-item"><a class="page-link" href="#">></a></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- <tfoot>
+        
     </tfoot> -->
-</table>
