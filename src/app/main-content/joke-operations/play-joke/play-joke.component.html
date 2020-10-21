@@ -1,0 +1,25 @@
+<div class="card" style="width: 45rem;">
+    <div class="card-header bg-primary text-white">
+        <div style="display: flex; justify-content: space-between;">
+            <h6>{{joke.jokeContent}}</h6>
+            <div style="display: flex;">
+                <div *ngFor="let flag of joke.jokeFlags">
+                    <img *ngIf="flag === '4'" class="flag-icons px-1" src="../../../../assets/noun_racism_860030.png" alt="">
+                    <img *ngIf="flag === '1'" class="flag-icons px-1" src="../../../../assets/nsfw.png" alt="">
+                    <img *ngIf="flag === '3'" class="flag-icons px-1" src="../../../../assets/politics.png" alt="">
+                    <img *ngIf="flag === '2'" class="flag-icons px-1" src="../../../../assets/religious-person.png" alt="">
+                </div>
+
+            </div>
+            
+        </div>
+        <div>
+            <span class="badge badge-danger">{{joke.jokeCategory}}</span>
+        </div>
+      </div>
+    <div class="card-body">
+      <h6 *ngIf="joke.jokeDelivery && !delivery" class="card-subtitle mb-2 text-muted">Wait for the delivery...</h6>
+      <h6 class="card-subtitle mb-2" *ngIf="joke.jokeDelivery && delivery">{{joke.jokeDelivery}}</h6>
+      <button class="btn text-primary float-right" (click)="onClickNext()">Next</button>
+    </div>
+  </div>

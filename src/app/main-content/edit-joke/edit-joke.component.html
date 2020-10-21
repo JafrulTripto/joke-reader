@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <form [formGroup]="jokeForm" (ngSubmit)="onSubmitJoke()">
+            <div class="form-group">
+                <label for="jokeCategory">Category</label>
+                <select class="form-control" id="jokeCategory" name="jokeCategory" formControlName="jokeCategory">
+                    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="jokeType">Type</label>
+                <select class="form-control" id="jokeType" name="jokeType" formControlName="jokeType" (change)="onChangeType($event)">
+                    <option value="1" selected>Single</option>
+                    <option value="2">Two Part</option>
+                </select>
+            </div>
+            <div class="form-group form-check" >
+                <label class="checkbox-inline" *ngFor="let flag of flags; let i=index">
+                    <input name="jokeFlags" [checked]="isChecked(flag)" id="jokeFlag-{{i}}" type="checkbox" value="flag.id" (change)="getFlagId($event, flag.id)">{{flag.name}} &nbsp;
+                  </label>
+                 
+            </div>
+            <div class="form-group">
+                <label for="jokeContent">Content</label>
+                <textarea class="form-control" id="jokeContent" rows="3" style="resize: none;" formControlName="jokeContent"></textarea>
+            </div>
+            <div class="form-group" *ngIf="isJokeDelivery">
+                <label for="jokeDelivery">Delivery</label>
+                <textarea class="form-control" id="jokeDelivery" rows="3" style="resize: none;" formControlName="jokeDelivery"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+    </div>
+</div>
