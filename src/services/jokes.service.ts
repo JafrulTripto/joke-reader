@@ -20,6 +20,7 @@ export class JokesService {
     {id:"4", name:'Dark'},
   ]
   public playJoke = new Subject<any>();
+  public totalJoke = new Subject<number>();
   public playSingle;
   constructor() { }
 
@@ -27,7 +28,9 @@ export class JokesService {
     this.playJoke.next(null)      
   }
   getJokes() {
-    return JSON.parse(localStorage.getItem("jokes") || "[]");
+    let jokes = JSON.parse(localStorage.getItem("jokes") || "[]");
+    this.totalJoke.next(jokes.length)
+    return jokes;
   }
 
   getJoke(id: string) {
@@ -44,6 +47,7 @@ export class JokesService {
     let items = this.getJokes();
     items.push(joke);
     localStorage.setItem("jokes", JSON.stringify(items));
+    this.totalJoke.next(items.length)
   }
 
   editJoke(joke:Joke, id: string) {
@@ -55,6 +59,7 @@ export class JokesService {
       jokes[index] = joke;
     }
     localStorage.setItem("jokes", JSON.stringify(jokes));
+    this.totalJoke.next(jokes.length)
   }
 
 }

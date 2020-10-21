@@ -11,19 +11,22 @@ import { JokesService } from 'src/services/jokes.service';
 export class JokeOperationsComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private jokeService: JokesService) { }
-  private subscription: Subscription;
+  private playJokeSubscription: Subscription; 
+  private countJokeSubscription: Subscription; 
+
   private prevRandom: number;
+  public totalJokes;
   ngOnInit(): void {
     this.prevRandom = 0
+    this.countJokeSubscription = this.jokeService.totalJoke.subscribe(count => {
+      console.log(count);
+      
+      this.totalJokes = count;
+    });
     console.log("ng on init")
-    this.subscription = this.jokeService.playJoke
+    this.playJokeSubscription = this.jokeService.playJoke
       .subscribe(value => {
-        if (!value) {
-          
-        this.playJokes();
-        } else {
-          console.log(value)
-        }
+        this.playJokes(); 
       })
   }
 
@@ -33,7 +36,13 @@ export class JokeOperationsComponent implements OnInit {
   playJokes() {
     this.jokeService.playSingle = false;
     let jokes = this.jokeService.getJokes();
-    let random = this.generateRandomNumber(this.prevRandom);
+    let random;
+    if (jokes.length >1) {
+      random = this.generateRandomNumber(this.prevRandom);
+    } else {
+      random = 0;
+    }
+    
     this.prevRandom = random
 
     this.router.navigate(['/jokes/', jokes[random].id, 'play'], { relativeTo: this.route });
@@ -52,7 +61,8 @@ export class JokeOperationsComponent implements OnInit {
     return next;
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.playJokeSubscription.unsubscribe();
+    this.countJokeSubscription.unsubscribe();
   }
 
 }
