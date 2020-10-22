@@ -18,6 +18,10 @@
     <div class="card-body">
       <h6 *ngIf="joke.jokeDelivery && !delivery" class="card-subtitle mb-2 text-muted">Wait for the delivery...</h6>
       <h6 class="card-subtitle mb-2" *ngIf="joke.jokeDelivery && delivery">{{joke.jokeDelivery}}</h6>
-      <button *ngIf="!palySingle" class="btn text-primary float-right" (click)="onClickNext()">Next</button>
+      <div class="bottom-nav">
+        <button class="btn text-primary float-right" (click)="onClickBack()">Back To Home</button>
+        <button *ngIf="!palySingle" class="btn text-primary float-right" (click)="onClickNext()">Next</button>
+
+      </div>
     </div>
   </div>

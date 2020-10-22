@@ -16,3 +16,6 @@ td{
 .flag-row{
     display: inline;
 }
+li{
+    cursor: pointer;
+}

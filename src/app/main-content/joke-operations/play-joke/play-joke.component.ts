@@ -38,5 +38,8 @@ export class PlayJokeComponent implements OnInit {
   onClickNext() {
     this.jokeService.playJoke.next()
   }
+  onClickBack(){
+    this.router.navigate(['/jokes/']);
+  }
 
 }
