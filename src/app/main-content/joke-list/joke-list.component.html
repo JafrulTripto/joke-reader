@@ -48,12 +48,11 @@
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination pagination-sm">
-            <li class="page-item"><a class="page-link" href="#"><</a>
+            <li class="page-item"><a class="page-link" (click)="updateIndex(currentIndex>0?currentIndex-1:0)"><</a>
             </li>
             <li *ngFor="let i of getArrayFromNumber(jokes.length); let in = index" class="page-item"><a
                     class="page-link" (click)="updateIndex(in)">{{in+1}}</a></li>
-
-            <li class="page-item"><a class="page-link" href="#">></a></li>
+            <li class="page-item"><a class="page-link" (click)="updateIndex(currentIndex>=pageLength?currentIndex-1:pageLength)">></a></li>
         </ul>
     </nav>
 </div>

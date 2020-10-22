@@ -12,8 +12,10 @@ export class JokeListComponent implements OnInit {
 
   constructor(public jokeService:JokesService, private route: ActivatedRoute, private router: Router) { }
   public jokes: Array<Joke> 
-  startIndex = 0;
-  endIndex = 5;
+  public startIndex = 0;
+  public endIndex = 5;
+  public currentIndex = 0;
+  public pageLength = 0
   ngOnInit(): void {
     this.jokes = this.jokeService.getJokes();
     this.jokes.map((joke:Joke) =>{
@@ -23,10 +25,22 @@ export class JokeListComponent implements OnInit {
   }
 
   updateIndex(pageIndex){
-    console.log(pageIndex)
-    this.startIndex = pageIndex * 5;
-    this.endIndex = this.startIndex + 5;
+    console.log(this.currentIndex)
+    console.log(this.pageLength)
+    this.currentIndex = pageIndex
+    if (this.currentIndex > (this.pageLength-1) || this.currentIndex<0 ) {
+      return
+    } else {
+      this.startIndex = pageIndex * 5;
+      this.endIndex = this.startIndex + 5;
+    }
+    
   }
+  // nextIndex(index){
+  //   this.currentIndex = index
+  //   this.startIndex = index * 5;
+  //   this.endIndex = this.startIndex + 5;
+  // }
 
   palySingleJoke(id) {
     this.jokeService.playSingle = true;
@@ -34,8 +48,8 @@ export class JokeListComponent implements OnInit {
   }
 
   getArrayFromNumber(length){
-    let pageLength = Math.ceil(length/5);
-    return new Array(pageLength);
+    this.pageLength = Math.ceil(length/5);
+    return new Array(this.pageLength);
   }
 
 }

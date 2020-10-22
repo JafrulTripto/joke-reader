@@ -17,6 +17,7 @@ export class EditJokeComponent implements OnInit {
   public flags: Array<any>;
   public jokeForm: FormGroup;
   public alert:boolean = false;
+  public headerTitle:string;
 
   public selectedFlags: Array<number> = []
   constructor(private jokeService: JokesService, private route: ActivatedRoute, private router: Router) { }
@@ -31,6 +32,7 @@ export class EditJokeComponent implements OnInit {
         this.initForm();
       }
     )
+    this.headerTitle = this.editMode ? "Edit Joke" : "Add New Joke"
   }
 
   private initForm() {
