@@ -95,11 +95,9 @@ export class EditJokeComponent implements OnInit {
 
   }
   onSubmitJoke() {
-    console.log(this.jokeForm)
     if (this.jokeForm.valid) {
       if (this.editMode) {
         this.jokeService.editJoke(this.jokeForm.value, this.id)
-        // console.log(this.jokeForm.value)
       } else {
         this.jokeService.addJoke(this.jokeForm.value);
       }

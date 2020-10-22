@@ -19,11 +19,9 @@ export class JokeOperationsComponent implements OnInit {
   ngOnInit(): void {
     this.prevRandom = 0
     this.countJokeSubscription = this.jokeService.totalJoke.subscribe(count => {
-      console.log(count);
       
       this.totalJokes = count;
     });
-    console.log("ng on init")
     this.playJokeSubscription = this.jokeService.playJoke
       .subscribe(value => {
         this.playJokes(); 

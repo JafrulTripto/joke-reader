@@ -25,8 +25,6 @@ export class JokeListComponent implements OnInit {
   }
 
   updateIndex(pageIndex){
-    console.log(this.currentIndex)
-    console.log(this.pageLength)
     this.currentIndex = pageIndex
     if (this.currentIndex > (this.pageLength-1) || this.currentIndex<0 ) {
       return
